@@ -209,6 +209,12 @@ if __name__ == '__main__':
         args = parser.parse_args()
         folds = args.folds
 
+
+        import torch
+        #debug
+        torch.backends.cudnn.enabled = False
+
+
         torch.backends.cudnn.benchmark = not args.no_benchmark
 
         if args.mode == 'train' or args.mode == 'train_test':

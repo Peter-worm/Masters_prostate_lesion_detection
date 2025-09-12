@@ -194,10 +194,10 @@ def resampling_operation(img, mask, spacing=(0.5, 0.5, 3), size='auto',
     #resample.SetDefaultPixelValue(0.)	#It is 0 by default
 
     if str(size)=='auto':
-        orig_size = np.array(ref.GetSize(), dtype=np.int)
+        orig_size = np.array(ref.GetSize(), dtype=int)
         orig_spacing = ref.GetSpacing()
         new_size = orig_size*(np.array(orig_spacing)/np.array(resample.GetOutputSpacing()))
-        new_size = np.ceil(new_size).astype(np.int) #  Image dimensions are in integers
+        new_size = np.ceil(new_size).astype(int) #  Image dimensions are in integers
         new_size = [int(s) for s in new_size]
         resample.SetSize(new_size)
     else:
@@ -212,7 +212,7 @@ def resampling_operation(img, mask, spacing=(0.5, 0.5, 3), size='auto',
 
         #Resample other channels differently
         if transform_channels != []:
-#             channel_tranform = sitk.CompositeTransform([transform, per_channel_transform])
+#             channel_tranform = sitk.CompositeTransform([transform, per_channel_transform]))
             channel_tranform = sitk.Transform(3, sitk.sitkComposite)
             channel_tranform.AddTransform(transform)
             channel_tranform.AddTransform(per_channel_transform)
@@ -587,7 +587,7 @@ def read_prostatex_all_modalities(images_path, ktrans_path, ID,
         from plot_lib import plot
     
     #Read first image from first series to identify series' name
-    first_series_path= os.path.join(images_path, os.listdir(images_path)[0])
+    first_series_path= os.path.join(images_path, os.listdir(str(images_path))[0])
     dicom_files= glob.glob(os.path.join(first_series_path,'*.dcm'))
     ds_gen= pydicom.dcmread(dicom_files[0])
     date= str(pd.to_datetime(ds_gen.StudyDate))
@@ -800,7 +800,7 @@ def get_lesion_mask_id_seed(positions_img, mask):
     for i, seed in enumerate(positions_img):
         try:
             curr_mask= np.zeros_like(lesion_mask_id_seed)
-            coords= np.round(seed[::-1]).astype(np.int)
+            coords= np.round(seed[::-1]).astype(int)
             curr_mask[coords[0], coords[1], coords[2]]= 1
             curr_mask= binary_dilation(curr_mask, np.ones((3,5,5)))
 
