@@ -504,8 +504,6 @@ class net(nn.Module):
         :return: detection_masks: (n_final_detections, n_classes, y, x, (z)) raw molded masks as returned by mask-head.
         """
         # Feature extraction
-        print(">>> DEBUG: img device:", img.device)
-        print(">>> DEBUG: Fpn params device:", next(self.Fpn.parameters()).device)
         fpn_outs = self.Fpn(img)
         seg_logits = self.final_conv(fpn_outs[0])
         selected_fmaps = [fpn_outs[i + 1] for i in self.cf.pyramid_levels]

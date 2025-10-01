@@ -44,9 +44,11 @@ def clean():
 
 if __name__ == "__main__":
 
-    req_file = "requirements.txt"
+    req_file = "requirements2.txt"
     custom_exts = ["nms-extension", "RoIAlign-extension-2D", "RoIAlign-extension-3D"]
     install_reqs = parse_requirements(req_file, exclude=custom_exts)
+
+    print(install_reqs)
 
     setup(name='medicaldetectiontoolkit',
           version='0.1.0',

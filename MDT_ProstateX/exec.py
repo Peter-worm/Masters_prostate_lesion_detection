@@ -106,6 +106,16 @@ def train(logger):
         for bix in range(cf.num_train_batches):
             batch = next(batch_gen['train'])
             tic_fw = time.time()
+            # print("batch")
+            # print(len(batch))
+
+            # for key, value in batch.items():
+            #     try:
+            #         size = len(value)  # try to get the length
+            #         print(f"Key: {key}, Size of content: {size}, Type {type(value)}")
+            #     except TypeError:
+            #         print(f"Key: {key}, Content has no size")
+
             results_dict = net.train_forward(batch)
             tic_bw = time.time()
             optimizer.zero_grad()
