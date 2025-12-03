@@ -358,6 +358,14 @@ class ModelSelector:
 
 
 
+def save_checkpoint(fold_dir: str, name: str, state: dict, monitor_metrics: dict):
+    save_dir = os.path.join(fold_dir, name)
+    if not os.path.exists(save_dir):
+        os.mkdir(save_dir)
+    torch.save(state, os.path.join(save_dir, 'params.pth'))
+    with open(os.path.join(save_dir, 'monitor_metrics.pickle'), 'wb') as handle:
+        pickle.dump(monitor_metrics, handle)
+
 def load_checkpoint(checkpoint_path: str, net: torch.nn.Module, optimizer: torch.optim.Optimizer) -> Tuple:
 
     checkpoint = torch.load(os.path.join(checkpoint_path, 'params.pth'))

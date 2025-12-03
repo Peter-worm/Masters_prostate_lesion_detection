@@ -57,7 +57,12 @@ def train(logger):
     logger.info('performing training in {}D over fold {} on experiment {} with model {}'.format(
         cf.dim, cf.fold, cf.exp_dir, cf.model))
 
+    
     net = model.net(cf, logger).cuda()
+    # print()
+    # print()
+    # print(":net:")
+    # print(net)
     if hasattr(cf, "optimizer") and cf.optimizer.lower() == "adam":
         logger.info("Using Adam optimizer.")
         optimizer = torch.optim.Adam(utils.parse_params_for_optim(net, weight_decay=cf.weight_decay,
@@ -93,38 +98,52 @@ def train(logger):
     logger.info('loading dataset and initializing batch generators...')
     batch_gen = data_loader.get_train_generators(cf, logger)
     
-    #It actually builds it, and then fails, but the graph remains!
+    #It actually builds it, and then fails, but gger, mthe graph remains!
     #logger.add_graph(net.Fpn,torch.from_numpy(next(batch_gen['train'])['data']).float().cuda() )
+
+
 
     for epoch in range(starting_epoch, cf.num_epochs + 1):
 
+        if epoch == starting_epoch + cf.number_of_epochs:
+            break
+
         logger.info('starting training epoch {}'.format(epoch))
+        print(f"After Epoch {epoch}:")
+        print(f"Current allocated memory: {torch.cuda.memory_allocated() / 1024**2:.2f} MB")
+
         start_time = time.time()
 
         net.train()
         train_results_list = []
+        #xdd
+        
         for bix in range(cf.num_train_batches):
             batch = next(batch_gen['train'])
+            # print(f"batch {bix}")
+            # print(f"Current allocated memory: 1 {torch.cuda.memory_allocated() / 1024**2:.2f} MB")
+            # batch = next(batch_gen['train'])
             tic_fw = time.time()
-            # print("batch")
-            # print(len(batch))
-
-            # for key, value in batch.items():
-            #     try:
-            #         size = len(value)  # try to get the length
-            #         print(f"Key: {key}, Size of content: {size}, Type {type(value)}")
-            #     except TypeError:
-            #         print(f"Key: {key}, Content has no size")
-
-            results_dict = net.train_forward(batch)
-            tic_bw = time.time()
+            # print(f"Current allocated memory: 2 {torch.cuda.memory_allocated() / 1024**2:.2f} MB")
+            torch.cuda.empty_cache()
+            # print(f"Current allocated memory: 2.5 {torch.cuda.memory_allocated() / 1024**2:.2f} MB")
             optimizer.zero_grad()
+            results_dict = net.train_forward(batch)
+            # print(f"Current allocated memory: 3 {torch.cuda.memory_allocated() / 1024**2:.2f} MB")
+            tic_bw = time.time()
+            # print(f"Current allocated memory: 4 {torch.cuda.memory_allocated() / 1024**2:.2f} MB")
+            optimizer.zero_grad()
+            # print(f"Current allocated memory: 5 {torch.cuda.memory_allocated() / 1024**2:.2f} MB")
             results_dict['torch_loss'].backward()
+
+            # print(f"Current allocated memory: 6 {torch.cuda.memory_allocated() / 1024**2:.2f} MB")
             optimizer.step()
+            # print(f"Current allocated memory: 7 {torch.cuda.memory_allocated() / 1024**2:.2f} MB")
+            torch.cuda.empty_cache()
             print('\rtr. batch {0}/{1} (ep. {2}) fw {3:.2f}s / bw {4:.2f} s / total {5:.2f} s || '.format(
                 bix + 1, cf.num_train_batches, epoch, tic_bw - tic_fw, time.time() - tic_bw,
                 time.time() - tic_fw) + results_dict['logger_string'], flush=True, end="")
-            train_results_list.append(({k:v for k,v in results_dict.items() if k != "seg_preds"}, batch["pid"]))
+            # train_results_list.append(({k:v for k,v in results_dict.items() if k != "seg_preds"}, batch["pid"]))
         print()
 
         _, monitor_metrics['train'] = train_evaluator.evaluate_predictions(train_results_list, monitor_metrics['train'])
@@ -147,8 +166,11 @@ def train(logger):
                         results_dict = val_predictor.predict_patient(batch)
                     elif cf.val_mode == 'val_sampling':
                         results_dict = net.train_forward(batch, is_validation=True)
-                    #val_results_list.append([results_dict['boxes'], batch['pid']])
+                    # val_results_list.append([results_dict['boxes'], batch['pid']])
                     val_results_list.append(({k:v for k,v in results_dict.items() if k != "seg_preds"}, batch["pid"]))
+
+
+                    # print(val_results_list)
 
                 _, monitor_metrics['val'] = val_evaluator.evaluate_predictions(val_results_list, monitor_metrics['val'])
                 model_selector.run_model_selection(net, optimizer, monitor_metrics, epoch)
@@ -168,12 +190,63 @@ def train(logger):
             utils.split_off_process(plot_batch_prediction, batch, results_dict, cf, outfile=os.path.join(
                 cf.plot_dir, 'pred_example_{}_val.png'.format(cf.fold)), logger=logger)
 
+        if False:
+            checkpoint_path = os.path.join(cf.fold_dir, f"model_epoch_{epoch}.pkl")
+            logger.info(f"Saving model checkpoint at: {checkpoint_path}")
+                
+            torch.save({
+                'epoch': epoch,
+                'model_state_dict': net.state_dict(),
+                'optimizer_state_dict': optimizer.state_dict(),
+                'monitor_metrics': monitor_metrics,
+            }, checkpoint_path)
+
+            # ---- Clear GPU cache before reload ----
+            logger.info(f"Memory pre clear {torch.cuda.memory_allocated() / 1024**2:.2f} MB")
+
+            import gc
+            del net
+            del optimizer
+            del monitor_metrics  # delete model instance
+            gc.collect()
+
+            torch.cuda.empty_cache()
+            torch.cuda.synchronize()
+            logger.info(f"Memory post clear {torch.cuda.memory_allocated() / 1024**2:.2f} MB")
+
+            # --- Reload model from checkpoint ---
+            logger.info(f"Reloading model checkpoint from: {checkpoint_path}")
+
+            # 1️⃣ Recreate the model instance
+            net = model.net(cf, logger).cuda()
+            # net = MyModel(cf)  # <--- you must reinstantiate it manually
+
+            # 2️⃣ Move it to GPU if available
+            device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
+            # net.to(device)
+
+            # 3️⃣ Load checkpoint
+            checkpoint = torch.load(checkpoint_path, map_location=device)
+            net.load_state_dict(checkpoint['model_state_dict'])
+            optimizer = torch.optim.AdamW(utils.parse_params_for_optim(net, weight_decay=cf.weight_decay,
+                                    exclude_from_wd=cf.exclude_from_wd),
+                                    lr=cf.learning_rate[0])
+            optimizer.load_state_dict(checkpoint['optimizer_state_dict'])
+
+            #very sus
+            monitor_metrics = utils.prepare_monitoring(cf)
+            # 4️⃣ Return to training mode
+            net.train()
+            logger.info(f"Memory post reload {torch.cuda.memory_allocated() / 1024**2:.2f} MB")
+            logger.info(f"Checkpoint for epoch {epoch} successfully reloaded.")
+
         # -------------- scheduling -----------------
         if cf.dynamic_lr_scheduling:
             scheduler.step(monitor_metrics["val"][cf.scheduling_criterion][-1])
         else:
             for param_group in optimizer.param_groups:
                 param_group['lr'] = cf.learning_rate[epoch-1]
+    print(f"Current allocated memory: 1 {torch.cuda.memory_allocated() / 1024**2:.2f} MB")
 
 def test(logger):
     """
@@ -216,6 +289,11 @@ if __name__ == '__main__':
         parser.add_argument('--cuda_device', type=int, default=0, help="Index of CUDA device to use.")
         parser.add_argument('-d', '--dev', default=False, action='store_true', help="development mode: shorten everything")
 
+        parser.add_argument('-v', '--verbose', default=False, action='store_true', help="prints way to much")
+        #last training with eval, i nned to change this later xdd
+        parser.add_argument('-l', '--last', default=False, action='store_true', help="is this the last iteration, after which there will be evaluation")
+        parser.add_argument('--number_of_epochs', type=int, default=2, help="number of epoch to train")
+
         args = parser.parse_args()
         folds = args.folds
 
@@ -230,6 +308,9 @@ if __name__ == '__main__':
         if args.mode == 'train' or args.mode == 'train_test':
 
             cf = utils.prep_exp(args.exp_source, args.exp_dir, args.server_env, args.use_stored_settings)
+            cf.verbose = args.verbose
+            cf.last = args.last
+            cf.number_of_epochs = args.number_of_epochs
             if args.dev:
                 folds = [0,1]
                 cf.batch_size, cf.num_epochs, cf.min_save_thresh, cf.save_n_models = 3 if cf.dim==2 else 1, 1, 0, 2
@@ -258,8 +339,16 @@ if __name__ == '__main__':
                     logger.set_logfile(fold=fold)
                     train(logger)
                     cf.resume = False
-                    if args.mode == 'train_test':
+                    print("a") 
+                    print("a") 
+                    print("a") 
+                    print("a") 
+                    print("a") 
+                    print("a") 
+
+                    if args.mode == 'train_test' and cf.last == True:
                         test(logger)
+
 
         elif args.mode == 'test':
 

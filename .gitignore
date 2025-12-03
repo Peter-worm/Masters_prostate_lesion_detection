@@ -12,7 +12,13 @@ MDT_ProstateX/experiments/exp0/logs/*
 .Rhistory
 ./vscode/*
 MDT_ProstateX/experiments/exp1/logs/*
+MDT_ProstateX/experiments/exp0_copy/*
 MDT_ProstateX/experiments/exp1~/*
+MDT_ProstateX/experiments/exp1/logs/*
+MDT_ProstateX/experiments/exp1/fold*
+MDT_ProstateX/experiments/exp1/fold*/
+MDT_ProstateX/experiments/exp2/*
+MDT_ProstateX/experiments/exp3/*
 
 #General: https://github.com/github/gitignore/blob/master/Python.gitignore
 # Byte-compiled / optimized / DLL files

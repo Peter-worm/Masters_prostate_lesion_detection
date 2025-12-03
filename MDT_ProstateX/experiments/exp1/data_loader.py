@@ -119,9 +119,10 @@ def get_train_generators(cf, logger):
 
     train_pids, val_pids, test_pids, _ = fg[cf.fold]
     
-    print('Train IDs:', train_pids)
-    print('\nValidation IDs:', val_pids)
-    print('\nTest IDs:', test_pids)
+    if cf.verbose == True:
+        print('Train IDs:', train_pids)
+        print('\nValidation IDs:', val_pids)
+        print('\nTest IDs:', test_pids)
 
     train_data = {k: v for (k, v) in all_data.items() if any(p == v['pid'] for p in train_pids)}
     val_data = {k: v for (k, v) in all_data.items() if any(p == v['pid'] for p in val_pids)}

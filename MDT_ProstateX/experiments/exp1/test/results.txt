@@ -1,0 +1,18 @@
+
+****************************
+
+results for fold 0 
+
+****************************
+
+fold df shape (39, 7)
+  
+AUC 0.5000  AP 0.6000 fold_0 patient cl_1 
+AUC nan  AP 0.0000 fold_0 rois cl_1 
+AUC 0.0000  AP 0.2000 fold_0 patient cl_2 
+AUC nan  AP 0.2000 fold_0 rois cl_2 
+AUC 0.5000  AP 0.2000 fold_0 patient cl_3 
+AUC nan  AP 0.0000 fold_0 rois cl_3 
+AUC nan  AP nan fold_0 patient cl_4 
+AUC nan  AP nan fold_0 rois cl_4 
+AUC 0.0000  AP nan average_foreground_roi 

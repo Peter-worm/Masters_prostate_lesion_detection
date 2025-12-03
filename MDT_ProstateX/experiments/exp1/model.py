@@ -504,9 +504,13 @@ class net(nn.Module):
         :return: detection_masks: (n_final_detections, n_classes, y, x, (z)) raw molded masks as returned by mask-head.
         """
         # Feature extraction
+        print(f"Current allocated memory: 1 {torch.cuda.memory_allocated() / 1024**2:.2f} MB")
+
         fpn_outs = self.Fpn(img)
         seg_logits = self.final_conv(fpn_outs[0])
         selected_fmaps = [fpn_outs[i + 1] for i in self.cf.pyramid_levels]
+
+        print(f"Current allocated memory: 1 {torch.cuda.memory_allocated() / 1024**2:.2f} MB")
 
         # Loop through pyramid layers
         class_layer_outputs, bb_reg_layer_outputs = [], []  # list of lists
@@ -514,6 +518,7 @@ class net(nn.Module):
             class_layer_outputs.append(self.Classifier(p))
             bb_reg_layer_outputs.append(self.BBRegressor(p))
 
+        print(f"Current allocated memory: 1 {torch.cuda.memory_allocated() / 1024**2:.2f} MB")
         # Concatenate layer outputs
         # Convert from list of lists of level outputs to list of lists
         # of outputs across levels.
@@ -523,10 +528,14 @@ class net(nn.Module):
         bb_outputs = list(zip(*bb_reg_layer_outputs))
         bb_outputs = [torch.cat(list(o), dim=1) for o in bb_outputs][0]
 
+        print(f"Current allocated memory: 1 {torch.cuda.memory_allocated() / 1024**2:.2f} MB")
+
         # merge batch_dimension and store info in batch_ixs for re-allocation.
         batch_ixs = torch.arange(class_logits.shape[0]).unsqueeze(1).repeat(1, class_logits.shape[1]).view(-1).cuda()
         flat_class_softmax = F.softmax(class_logits.view(-1, class_logits.shape[-1]), 1)
         flat_bb_outputs = bb_outputs.view(-1, bb_outputs.shape[-1])
         detections = refine_detections(self.anchors, flat_class_softmax, flat_bb_outputs, batch_ixs, self.cf)
+
+        print(f"Current allocated memory: 1 {torch.cuda.memory_allocated() / 1024**2:.2f} MB")
 
         return detections, class_logits, bb_outputs, seg_logits

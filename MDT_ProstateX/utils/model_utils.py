@@ -295,8 +295,9 @@ def generate_pyramid_anchors(logger, cf):
     feature_strides = cf.backbone_strides
 
     anchors = []
-    logger.info("feature map shapes: {}".format(feature_shapes))
-    logger.info("anchor scales: {}".format(scales))
+    if cf.debugging == True:
+        logger.info("feature map shapes: {}".format(feature_shapes))
+        logger.info("anchor scales: {}".format(scales))
 
     expected_anchors = [np.prod(feature_shapes[ii]) * len(ratios) * len(scales['xy'][ii]) for ii in pyramid_levels]
 
@@ -307,9 +308,9 @@ def generate_pyramid_anchors(logger, cf):
         else:
             anchors.append(generate_anchors_3D(scales['xy'][level], scales['z'][level], ratios, feature_shapes[level],
                                             feature_strides['xy'][level], feature_strides['z'][level], anchor_stride))
-
-        logger.info("level {}: built anchors {} / expected anchors {} ||| total build {} / total expected {}".format(
-            level, anchors[-1].shape, expected_anchors[lix], np.concatenate(anchors).shape, np.sum(expected_anchors)))
+        if cf.debugging == True:
+            logger.info("level {}: built anchors {} / expected anchors {} ||| total build {} / total expected {}".format(
+                level, anchors[-1].shape, expected_anchors[lix], np.concatenate(anchors).shape, np.sum(expected_anchors)))
 
     out_anchors = np.concatenate(anchors, axis=0)
     return out_anchors
