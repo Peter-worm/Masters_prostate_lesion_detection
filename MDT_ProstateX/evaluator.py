@@ -259,20 +259,27 @@ class Evaluator():
         score_level.
         :return: monitor_metrics
         """
-
+        print("start metrics calculations")
         # -------------- monitoring independent of class, score level ------------
         if monitor_metrics is not None:
             for l_name in self.epoch_losses:
                 monitor_metrics[l_name] = [self.epoch_losses[l_name]]
 
 
+
         df = self.test_df
 
         all_stats = []
+
+        self.logger.info("")
+        print(self.cf.class_dict.keys())
+
         for cl in list(self.cf.class_dict.keys()):
+            print(f"cl: {cl}")
             cl_df = df[df.pred_class == cl]
 
             for score_level in self.cf.report_score_level:
+                print(f"score level {score_level}")
                 stats_dict = {}
                 stats_dict['name'] = 'fold_{} {} cl_{}'.format(self.cf.fold, score_level, cl)
 
@@ -298,9 +305,12 @@ class Evaluator():
                 # on patient level, aggregate predictions per patient (pid): The patient predicted score is the highest
                 # confidence prediction for this class. The patient class label is 1 if roi of this class exists in patient, else 0.
                 if score_level == 'patient':
+                    print(cl_df)
                     spec_df = cl_df.groupby(['pid'], as_index=False).agg({'class_label': 'max', 'pred_score': 'max', 'fold': 'first'})
-
+                    print(f"clu {spec_df.class_label}")
+                    print(spec_df)
                     if len(spec_df.class_label.unique()) > 1:
+
                         stats_dict['auc'] = roc_auc_score(spec_df.class_label.tolist(), spec_df.pred_score.tolist())
                         stats_dict['roc'] = roc_curve(spec_df.class_label.tolist(), spec_df.pred_score.tolist())
                     else:
@@ -325,7 +335,7 @@ class Evaluator():
                             aps.append(average_precision_score(fold_df.class_label.tolist(), fold_df.pred_score.tolist()))
                     stats_dict['mean_auc'] = np.mean(aucs)
                     stats_dict['mean_ap'] = np.mean(aps)
-
+                print(stats_dict)
                 # fill new results into monitor_metrics dict. for simplicity, only one class (of interest) is monitored on patient level.
                 if monitor_metrics is not None and not (score_level == 'patient' and cl != self.cf.patient_class_of_interest):
                     score_level_name = 'patient' if score_level == 'patient' else self.cf.class_dict[cl]
@@ -378,7 +388,8 @@ class Evaluator():
         :param metrics_to_score:
         :return:
         """
-
+        print("debug dubug debug!!!")
+        print(metrics_to_score)
         with open(out_path, 'a') as handle:
             # ---column headers---
             handle.write('\n{},'.format("Experiment Name"))
@@ -390,8 +401,11 @@ class Evaluator():
             handle.write('{},'.format("WBC IoU"))
             handle.write('{},'.format("Merge-2D-to-3D IoU"))
             for s in stats:
+                print(s)
+                print("")
                 #if self.cf.class_dict[self.cf.patient_class_of_interest] in s['name'] or "average" in s["name"]:
                 for metric in metrics_to_score:
+                    print(metric)
                     if metric in s.keys() and not np.isnan(s[metric]):
                         if metric == 'ap':
                             handle.write('{} : {}_{},'.format(s['name'], metric.upper(),

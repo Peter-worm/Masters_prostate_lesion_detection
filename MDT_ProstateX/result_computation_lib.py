@@ -33,7 +33,7 @@ import copy
 from pathlib import Path
 import sys, os
 sys.path.append(os.path.join(Path.home(), 'plot_lib'))
-from plot_lib import plot, plot_multi_mask, plot4
+from plot_lib.plot_lib import plot, plot_multi_mask, plot4
 
 def get_optimal_thresholds(y, yp):
     '''

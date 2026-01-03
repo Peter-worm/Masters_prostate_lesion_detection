@@ -150,6 +150,8 @@ class Predictor:
                             (if not merged to 3D), and a dummy batch dimension of 1 for 3D predictions.
                  - 'seg_preds': not implemented yet. todo for evaluation of instance/semantic segmentation.
         """
+        self.logger.info("started_ppredicting_t_s")
+        print("started_precicting")
         dict_of_patient_results = OrderedDict()
 
         # Use epoch ranking or custom set of epochs
@@ -244,7 +246,9 @@ class Predictor:
         with open(os.path.join(self.cf.fold_dir, '{}.pickle'.format(out_string)), 'wb') as handle:
             pickle.dump(results_per_patient, handle)
 
-        if return_results:
+        if True ==True:
+            print('TRUE TRUE TRUE')
+            self.logger.info("AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA")
             final_patient_box_results = [(res_dict["boxes"], pid) for res_dict, pid in results_per_patient]
             # consolidate predictions.
             self.logger.info('applying wcs to test set predictions with iou = {} and n_ens = {}.'.format(
@@ -375,7 +379,9 @@ class Predictor:
             results_list[ix][0]["boxes"] = box_results_list[ix][0]
             
         #We save the final aggregated predicitons for hold_out_test_set
-        if self.cf.hold_out_test_set and self.cf.ensemble_folds:
+        if True == True:
+            self.logger.info("AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAbA")
+            self.logger.info("AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAbA")
             out_string= 'processed_pred_boxes_overall_hold_out_list'
             with open(os.path.join(self.cf.test_dir, '{}.pickle'.format(out_string)), 'wb') as handle:
                     pickle.dump(results_list, handle)

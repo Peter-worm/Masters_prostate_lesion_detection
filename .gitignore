@@ -19,6 +19,8 @@ MDT_ProstateX/experiments/exp1/fold*
 MDT_ProstateX/experiments/exp1/fold*/
 MDT_ProstateX/experiments/exp2/*
 MDT_ProstateX/experiments/exp3/*
+mgonet-Dataset_1_preprocessed/*
+rjozwiak-MGR_dataset_correct/*
 
 #General: https://github.com/github/gitignore/blob/master/Python.gitignore
 # Byte-compiled / optimized / DLL files

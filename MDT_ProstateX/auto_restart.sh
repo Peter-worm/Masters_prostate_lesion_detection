@@ -12,10 +12,10 @@ if ! [[ "$1" =~ ^[0-9]+$ ]]; then
     exit 1
 fi
 
-MAX_ITERS="$1"
+MAX_ITERS="$5"
 COUNT=0
 
-while [ "$COUNT" -lt "$MAX_ITERS" ]; do
+while [ "$COUNT" -lt 4 ]; do
     echo "Iteration $((COUNT+1)) of $MAX_ITERS"
 
     # Add -l only on the last iteration

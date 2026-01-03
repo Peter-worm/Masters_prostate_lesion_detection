@@ -347,6 +347,7 @@ if __name__ == '__main__':
                     print("a") 
 
                     if args.mode == 'train_test' and cf.last == True:
+                        print("TEST TEST TEST")
                         test(logger)
 
 
