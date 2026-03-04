@@ -511,7 +511,7 @@ class net(nn.Module):
         """
         # Feature extraction
         # print(f"Current allocated memory: 1 {torch.cuda.memory_allocated() / 1024**2:.2f} MB")
-        print(img.shape)
+
         fpn_outs = self.Fpn(img)
         seg_logits = self.final_conv(fpn_outs[0])
         selected_fmaps = [fpn_outs[i + 1] for i in self.cf.pyramid_levels]

@@ -19,6 +19,13 @@ MDT_ProstateX/experiments/exp1/fold*
 MDT_ProstateX/experiments/exp1/fold*/
 MDT_ProstateX/experiments/exp2/*
 MDT_ProstateX/experiments/exp3/*
+MDT_ProstateX/experiments/exp_new_data_loader/fold_0/*
+MDT_ProstateX/experiments/exp_new_data_loader/fold_1/*
+MDT_ProstateX/experiments/exp_new_data_loader/fold_2/*
+MDT_ProstateX/experiments/exp_new_data_loader/fold_3/*
+MDT_ProstateX/experiments/exp_new_data_loader/fold_4/*
+MDT_ProstateX/experiments/exp_new_data_loader/logs/*
+MDT_ProstateX/experiments/exp_new_data_loader/plots/*
 mgonet-Dataset_1_preprocessed/*
 rjozwiak-MGR_dataset_correct/*
 

@@ -305,6 +305,10 @@ if __name__ == '__main__':
 
         torch.backends.cudnn.benchmark = not args.no_benchmark
 
+        import pickle
+        with open("args-exp3.pkl", "wb") as f:
+            pickle.dump(args, f)
+
         if args.mode == 'train' or args.mode == 'train_test':
 
             cf = utils.prep_exp(args.exp_source, args.exp_dir, args.server_env, args.use_stored_settings)
@@ -349,7 +353,6 @@ if __name__ == '__main__':
                     if args.mode == 'train_test' and cf.last == True:
                         print("TEST TEST TEST")
                         test(logger)
-
 
         elif args.mode == 'test':
 
