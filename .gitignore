@@ -28,6 +28,7 @@ MDT_ProstateX/experiments/exp_new_data_loader/logs/*
 MDT_ProstateX/experiments/exp_new_data_loader/plots/*
 mgonet-Dataset_1_preprocessed/*
 rjozwiak-MGR_dataset_correct/*
+juzwiak_preprocessed/*
 
 #General: https://github.com/github/gitignore/blob/master/Python.gitignore
 # Byte-compiled / optimized / DLL files
