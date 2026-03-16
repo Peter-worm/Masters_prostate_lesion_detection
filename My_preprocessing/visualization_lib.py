@@ -2,9 +2,17 @@ import matplotlib.pyplot as plt
 import ipywidgets as widgets
 from IPython.display import display
 from file_manager import preprocess_file_manager
+import numpy as np
 
 def do_nothing_normalizer(file):
     return file
+
+def normalize_volume(volume):
+    vmin = volume.min()
+    vmax = volume.max()
+    if vmax - vmin == 0:
+        return np.zeros_like(volume)
+    return (volume - vmin) / (vmax - vmin)
 
 def folder_shower(file_manager: preprocess_file_manager,
     step = 'raw',
