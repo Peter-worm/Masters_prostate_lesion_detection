@@ -83,4 +83,11 @@ class preprocess_file_manager:
             ids.append(patient.stem)   # removes .plk
         return ids
     
+    def copy_NiFty_to_internal(self, data_folder, channels):
+        folder = Path(data_folder)
+        patients_folders = [x.name for x in folder.iterdir()]
+        for patient in patients_folders:
+            data = self.load_file_NiFty_external(data_folder,patient,channels)
+            self.save_file_Nifty('raw',patient,data)
+        
 
