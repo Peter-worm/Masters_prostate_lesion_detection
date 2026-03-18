@@ -71,3 +71,16 @@ def folder_shower(file_manager: preprocess_file_manager,
     )
 
     display(ui)
+
+
+def show_transformation(dictionary):
+    n = len(dictionary)
+    plt.figure(figsize=(5*n, 5))
+
+    for i, (name, img) in enumerate(dictionary.items(), 1):
+        plt.subplot(1, n, i)
+        plt.imshow(img, cmap='gray', vmin=0, vmax=1)
+        plt.title(name)
+        plt.axis('off')
+
+    plt.show()

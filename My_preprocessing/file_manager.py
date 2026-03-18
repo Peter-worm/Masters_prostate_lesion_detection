@@ -4,10 +4,13 @@ from pathlib import Path
 import SimpleITK as sitk
 
 class preprocess_file_manager:
-    def __init__(self, main_folder,preprocess_steps,channels):
+    def __init__(self, main_folder,preprocess_steps,channels,current_step = None):
         self.main_folder = main_folder
         self.steps = preprocess_steps
-        self.current_step = preprocess_steps[0]
+        if current_step is not None:
+            self.current_step = current_step
+        else:
+            self.current_step = preprocess_steps[0]
         self.channels = channels
 
     def load_file(self, step, patient_id, mode = 'pickle'):
