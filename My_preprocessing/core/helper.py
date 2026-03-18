@@ -1,6 +1,6 @@
 import SimpleITK as sitk
 import numpy as np
-from file_manager import preprocess_file_manager
+from core.file_manager import preprocess_file_manager
 from pathlib import Path
 
 def register_and_resample(moving, reference, interpolator=sitk.sitkLinear):

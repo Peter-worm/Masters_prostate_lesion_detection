@@ -1,7 +1,7 @@
 import matplotlib.pyplot as plt
 import ipywidgets as widgets
 from IPython.display import display
-from file_manager import preprocess_file_manager
+from core.file_manager import preprocess_file_manager
 import numpy as np
 
 def do_nothing_normalizer(file):

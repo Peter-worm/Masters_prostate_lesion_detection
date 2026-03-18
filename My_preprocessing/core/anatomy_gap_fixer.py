@@ -1,7 +1,7 @@
-from file_manager import preprocess_file_manager
+from core.file_manager import preprocess_file_manager
 import numpy as np
 from scipy.ndimage import distance_transform_edt
-from stat_calc import find_periods
+from core.stat_calc import find_periods
 
 def signed_distance(mask):
     mask = mask.astype(bool)
