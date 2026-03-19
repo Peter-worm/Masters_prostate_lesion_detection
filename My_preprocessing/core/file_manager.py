@@ -10,16 +10,22 @@ class preprocess_file_manager:
         if current_step is not None:
             self.current_step = current_step
         else:
-            self.current_step = preprocess_steps[0]
+            self.current_step = preprocess_steps[list(preprocess_steps.keys())[0]]['start']
         self.channels = channels
 
-    def load_file(self, step, patient_id, mode = 'pickle'):
-        if mode == 'pickle':
+    def load_file(self, step, patient_id):
+        path = os.path.join(self.main_folder, step, f"{patient_id}")
+        pkl_path = Path(path)
+        if pkl_path.is_dir():
+            return self.load_file_NifTy(step, patient_id)
+        pkl_path = Path(path + ".pkl")
+        if pkl_path.is_file():
             return self.load_file_pickle(step, patient_id)
+        else:
+            raise FileNotFoundError(f"No file found for patient {patient_id} in step {step}.")
 
-    def save_file(self, step, patient_id, data, mode = 'pickle'):
-        if mode == 'pickle':
-            self.save_file_pickle(step, patient_id, data)
+    def save_file(self, step, patient_id, data):
+        self.save_file_pickle(step, patient_id, data)
 
 
     ## pickle loading
@@ -39,7 +45,7 @@ class preprocess_file_manager:
         with open(path, "wb") as f:
             pickle.dump(data, f)
     ##nii.gz
-    def load_file_NifTy(self, step, patient_id, data):
+    def load_file_NifTy(self, step, patient_id):
         data_path = os.path.join(self.main_folder, step)
 
         data = self.load_file_NiFty_external(data_path,patient_id,self.channels)

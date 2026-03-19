@@ -2,6 +2,7 @@ import SimpleITK as sitk
 import numpy as np
 from core.file_manager import preprocess_file_manager
 from pathlib import Path
+from core.transformers.preprocessing_transformer import preprocessing_transformer
 
 def register_and_resample(moving, reference, interpolator=sitk.sitkLinear):
     """Register moving image to reference and resample."""
@@ -34,7 +35,7 @@ def sikit_to_just_data(scikit_images):
         return patient_data
 
 
-def load_NiFty_and_save_raw_data(data_folder,file_manager: preprocess_file_manager,channels,resample_to = 't2',resample_channels = ['adc','dwi'],filter = None):
+def load_NiFty_and_save_raw_data(data_folder,file_manager: preprocess_file_manager,channels,resample_to = 't2',resample_channels = ['adc','dwi'],filter = None,step = 'raw'):
     folder = Path(data_folder)
     if filter == None:
         patients_folders = [x.name for x in folder.iterdir()]
@@ -46,4 +47,23 @@ def load_NiFty_and_save_raw_data(data_folder,file_manager: preprocess_file_manag
         data = file_manager.load_file_NiFty_external(data_folder,patient,channels)
         # data = register_and_resample()
         raw_data = sikit_to_just_data(data)
-        file_manager.save_file_pickle('raw',patient,raw_data)
+        file_manager.save_file_pickle(step,patient,raw_data)
+
+def copy_NiFty(data_folder,file_manager: preprocess_file_manager,channels,filter = None,step = 'raw'):
+    folder = Path(data_folder)
+    if filter == None:
+        patients_folders = [x.name for x in folder.iterdir()]
+    else:
+         patients_folders = filter
+
+    for patient in patients_folders:
+        data = file_manager.load_file_NiFty_external(data_folder,patient,channels)
+        file_manager.save_file_Nifty(step,patient,data)
+
+
+def patients_transform(file_manager: preprocess_file_manager,start_step,end_step, transformer:preprocessing_transformer):
+    patients = file_manager.get_file_names()
+    for patient in patients:
+        patient_data = file_manager.load_file(start_step,patient)
+        data_transformed = transformer.execute(patient_data)
+        file_manager.save_file(end_step,patient,data_transformed)
