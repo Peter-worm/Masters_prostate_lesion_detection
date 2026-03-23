@@ -25,7 +25,10 @@ class preprocess_file_manager:
             raise FileNotFoundError(f"No file found for patient {patient_id} in step {step}.")
 
     def save_file(self, step, patient_id, data):
-        self.save_file_pickle(step, patient_id, data)
+        if isinstance(data, dict) and all(isinstance(v, sitk.Image) for v in data.values()):
+            self.save_file_Nifty(step, patient_id, data)
+        else:
+            self.save_file_pickle(step, patient_id, data)
 
 
     ## pickle loading

@@ -67,3 +67,11 @@ def patients_transform(file_manager: preprocess_file_manager,start_step,end_step
         patient_data = file_manager.load_file(start_step,patient)
         data_transformed = transformer.execute(patient_data)
         file_manager.save_file(end_step,patient,data_transformed)
+
+def transform_step_list_to_dictioanry(preprocessing_steps_list):
+    preprocessed_steps = {}
+    for i,(step, output) in enumerate(preprocessing_steps_list):
+        if i == 0:
+            continue
+        preprocessed_steps[step] = {'start': f"{i-1}_{preprocessing_steps_list[i-1][1]}", 'end': f"{i}_{output}"}
+    return preprocessed_steps
