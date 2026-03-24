@@ -34,7 +34,7 @@ def fix_patient_anatomy(outlier_data):
     while i < len(periods)-1:
         start = periods[i][1]
         end = periods[i+1][0]
-        print(f"{start}  {end}")
+        # print(f"{start}  {end}")
 
         start_layer = prostate[:,:,start]
         end_layer = prostate[:,:,end]
