@@ -17,6 +17,7 @@ class test_settings:
 
         self.preprocessing_steps_list = [
             ('start', 'nifty'),
+            ('normalization', 'normalized'),
             ('resampling','resampled'),
             ('nifti_to_raw', 'raw'),
             ('filling_anatomy_gaps', 'anatomy_gap_filled'),

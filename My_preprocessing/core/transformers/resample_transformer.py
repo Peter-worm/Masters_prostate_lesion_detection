@@ -9,7 +9,7 @@ class resample_transformer(preprocessing_transformer):
         self.is_label = is_label
 
     def execute(self, patient_data):
-        patient_data['anatomy'] = self.resample_nii(patient_data['anatomy'], target_spacing=self.target_spacing, is_label=self.is_label)
+        patient_data['anatomy'] = self.resample_nii(patient_data['anatomy'], target_spacing=self.target_spacing, is_label=True)
         patient_data['t2'] = self.resample_nii(patient_data['t2'], target_spacing=self.target_spacing, is_label=self.is_label)
         patient_data['dwi'] = self.resample_nii(patient_data['dwi'], target_spacing=self.target_spacing, is_label=self.is_label)
         patient_data['adc'] = self.resample_nii(patient_data['adc'], target_spacing=self.target_spacing, is_label=self.is_label)
