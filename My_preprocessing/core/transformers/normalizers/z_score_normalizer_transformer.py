@@ -1,4 +1,3 @@
-from anyio import key
 import numpy as np
 
 from core.transformers.preprocessing_transformer import preprocessing_transformer
@@ -6,13 +5,13 @@ import SimpleITK as sitk
 import numpy as np
 
 class z_score_normalizer_transformer(preprocessing_transformer):
-    def __init__(self):
-        pass
+    def __init__(self, channels_to_normalize=['t2', 'dwi', 'adc'],mask_channel='anatomy'):
+        self.channels_to_normalize = channels_to_normalize
+        self.mask_channel = mask_channel
 
     def execute(self, patient_data):
-        patient_data['t2'] = self.zscore_normalize_global(patient_data['t2'],patient_data['anatomy'])
-        patient_data['dwi'] = self.zscore_normalize_global(patient_data['dwi'],patient_data['anatomy'])
-        patient_data['adc'] = self.zscore_normalize_global(patient_data['adc'],patient_data['anatomy'])                                                                        
+        for channel in self.channels_to_normalize:
+            patient_data[channel] = self.zscore_normalize_global(patient_data[channel], patient_data[self.mask_channel])
         return patient_data
 
 
