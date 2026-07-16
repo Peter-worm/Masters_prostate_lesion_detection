@@ -3,16 +3,18 @@ import SimpleITK as sitk
 import numpy as np
 
 class resample_transformer(preprocessing_transformer):
-    def __init__(self, crop_size, target_spacing=(0.8, 0.8, 3.5),is_label=False):
+    def __init__(self, crop_size, target_spacing=(0.8, 0.8, 3.5),channels = ['anatomy', 't2', 'dwi', 'adc','lesion'], mask_channels = ['anatomy','lesion']):
         self.crop_size = crop_size
         self.target_spacing = target_spacing
-        self.is_label = is_label
+        self.channels = channels
+        self.mask_channels = mask_channels
 
     def execute(self, patient_data):
-        patient_data['anatomy'] = self.resample_nii(patient_data['anatomy'], target_spacing=self.target_spacing, is_label=True)
-        patient_data['t2'] = self.resample_nii(patient_data['t2'], target_spacing=self.target_spacing, is_label=self.is_label)
-        patient_data['dwi'] = self.resample_nii(patient_data['dwi'], target_spacing=self.target_spacing, is_label=self.is_label)
-        patient_data['adc'] = self.resample_nii(patient_data['adc'], target_spacing=self.target_spacing, is_label=self.is_label)
+        for channel in self.channels:
+            if channel in self.mask_channels:
+                patient_data[channel] = self.resample_nii(patient_data[channel], target_spacing=self.target_spacing, is_mask=True)
+            else:
+                patient_data[channel] = self.resample_nii(patient_data[channel], target_spacing=self.target_spacing, is_mask=False)
         return patient_data
 
 
@@ -20,7 +22,7 @@ class resample_transformer(preprocessing_transformer):
     self,
     image,
     target_spacing=(0.8, 0.8, 3.5),
-    is_label=False
+    is_mask=False
 ):
         # Load image
         image
@@ -35,7 +37,7 @@ class resample_transformer(preprocessing_transformer):
         ]
     
         # Choose interpolation
-        if is_label:
+        if is_mask:
             interpolator = sitk.sitkNearestNeighbor
         else:
             interpolator = sitk.sitkBSpline  # or sitkLinear

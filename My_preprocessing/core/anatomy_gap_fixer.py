@@ -19,14 +19,14 @@ def interpolate_shapes(A, B, steps):
         result.append((d < 0).astype(int))
     return result
 
-def fix_patient_anatomy_file_to_file(outlier, file_manager: preprocess_file_manager,step = 'raw'):
+def fix_patient_mask_file_to_file(outlier, file_manager: preprocess_file_manager,mask_channel = 'anatomy',step = 'raw'):
     outlier_data = file_manager.load_file(step, outlier)
-    outlier_new_data = fix_patient_anatomy(outlier_data)
+    outlier_new_data = fix_patient_mask(outlier_data, mask_channel=mask_channel)
     file_manager.save_file(step,outlier,outlier_new_data)
 
 
-def fix_patient_anatomy(outlier_data):
-    prostate = outlier_data['anatomy']
+def fix_patient_mask(outlier_data,mask_channel = 'anatomy'):
+    prostate = outlier_data[mask_channel]
     valid_layers = np.any(prostate == 1, axis=(0, 1))
     true_indices = np.where(valid_layers)[0]
     i = 0
@@ -49,11 +49,11 @@ def fix_patient_anatomy(outlier_data):
         i+=1
     return outlier_data
 
-def find_gaps_in_anatomy(patients,file_manager,step = 'raw'):
+def find_gaps_in_mask(patients,file_manager,step = 'raw',mask_channel = 'anatomy'):
     outliers = []
     sections_with_prostate = {}
     for patient in patients:
-        prostate = file_manager.load_file(step, patient)['anatomy'] 
+        prostate = file_manager.load_file(step, patient)[mask_channel]
         valid_layers = np.any(prostate == 1, axis=(0, 1))
         true_indices = np.where(valid_layers)[0]
         if len(find_periods(true_indices)) != 1:

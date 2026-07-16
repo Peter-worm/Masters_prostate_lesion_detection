@@ -4,14 +4,15 @@ class test_settings:
     def __init__(self):
         self.original_data_folder =  '/home/robakp/Exeriments1/prostate_lesion_detection/rjozwiak-MGR_dataset_correct/MGR_dataset_correct'
 
+        self.target = 'lesion'
+
         self.channels = {
             'adc' : 'adc',
             'anatomy' : 'anatomy',
             'dwi' : 'dwi',
-            't2' : 't2'
+            't2' : 't2',
+            self.target : self.target
         }
-
-        self.target = 'lesion'
 
         self.file_extention = '.nii.gz'
 
