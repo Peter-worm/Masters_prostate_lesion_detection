@@ -78,7 +78,9 @@ class configs(DefaultConfigs):
         self.select_prototype_subset = None
 
         # path to preprocessed data.
-        self.pp_name = 'preprocessed/merged'
+        #################### self.pp_name = 'preprocessed/merged'
+        self.pp_name = 'juzwiak_preprocessed/pp_dataset'
+        #
         self.input_df_name = 'info_df.pickle'
         self.pp_data_path = os.path.join(self.root_dir, self.pp_name)
         self.pp_test_data_path = self.pp_data_path #change if test_data in separate folder.

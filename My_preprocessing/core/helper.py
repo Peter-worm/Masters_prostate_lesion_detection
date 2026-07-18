@@ -61,8 +61,10 @@ def copy_NiFty(data_folder,file_manager: preprocess_file_manager,channels,filter
         file_manager.save_file_Nifty(step,patient,data)
 
 
-def patients_transform(file_manager: preprocess_file_manager,start_step,end_step, transformer:preprocessing_transformer):
+def patients_transform(file_manager: preprocess_file_manager,start_step,end_step, transformer:preprocessing_transformer,filter = None):
     patients = file_manager.get_file_names()
+    if filter:
+        patients = [p for p in patients if p in filter]
     for patient in patients:
         patient_data = file_manager.load_file(start_step,patient)
         data_transformed = transformer.execute(patient_data)

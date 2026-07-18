@@ -4,13 +4,13 @@ from pathlib import Path
 import SimpleITK as sitk
 
 class preprocess_file_manager:
-    def __init__(self, main_folder,preprocess_steps,channels,current_step = None):
+    def __init__(self, main_folder,preprocess_steps,channels,current_load_step = None):
         self.main_folder = main_folder
         self.steps = preprocess_steps
-        if current_step is not None:
-            self.current_step = current_step
+        if current_load_step is not None:
+            self.current_load_step = current_load_step
         else:
-            self.current_step = preprocess_steps[list(preprocess_steps.keys())[0]]['start']
+            self.current_load_step = preprocess_steps[list(preprocess_steps.keys())[0]]['start']
         self.channels = channels
 
     def load_file(self, step, patient_id):
@@ -88,7 +88,7 @@ class preprocess_file_manager:
 
 
     def get_file_names(self):
-        data_folder = os.path.join(self.main_folder, self.current_step)
+        data_folder = os.path.join(self.main_folder, self.current_load_step)
         folder = Path(data_folder)
         ids = []
         for patient in folder.iterdir():
