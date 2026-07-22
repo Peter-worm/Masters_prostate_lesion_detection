@@ -56,7 +56,7 @@ class configs(DefaultConfigs):
         #Already done!
         self.root_dir = r'../'
         #self.raw_data_dir = os.path.join(self.root_dir, './')
-        self.pp_dir = os.path.join(self.root_dir, 'preprocessed/merged')
+        self.pp_dir = os.path.join(self.root_dir, 'juzwiak_preprocessed/pp_dataset')
         self.target_spacing = (0.5, 0.5, 3.)
 
         #########################
@@ -146,7 +146,7 @@ class configs(DefaultConfigs):
         #########################
 
         self.num_epochs = 115 #99
-        self.num_train_batches = 30 if self.dim == 2 else 30
+        self.num_train_batches = 1 if self.dim == 2 else 1
         self.batch_size = 20 if self.dim == 2 else 6
 
         self.self_restart_epoch_period = 3

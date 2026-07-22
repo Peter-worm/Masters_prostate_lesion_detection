@@ -38,10 +38,11 @@ import time
 import subprocess
 
 ss_v2= {
-    'train_fix': ['ProstateX-0204', 'ProstateX-0205', 'ProstateX-0206', 'ProstateX-0207', 'ProstateX-0208', 'ProstateX-0209', 'ProstateX-0210', 'ProstateX-0211', 'ProstateX-0212', 'ProstateX-0213', 'ProstateX-0214', 'ProstateX-0215', 'ProstateX-0216', 'ProstateX-0217', 'ProstateX-0218', 'ProstateX-0219', 'ProstateX-0220', 'ProstateX-0221', 'ProstateX-0222', 'ProstateX-0223', 'ProstateX-0224', 'ProstateX-0225', 'ProstateX-0226', 'ProstateX-0227', 'ProstateX-0228', 'ProstateX-0229', 'ProstateX-0230', 'ProstateX-0231', 'ProstateX-0232', 'ProstateX-0233', 'ProstateX-0234', 'ProstateX-0235', 'ProstateX-0236', 'ProstateX-0237', 'ProstateX-0238', 'ProstateX-0239', 'ProstateX-0240', 'ProstateX-0241', 'ProstateX-0242', 'ProstateX-0243', 'ProstateX-0244', 'ProstateX-0245', 'ProstateX-0246', 'ProstateX-0247', 'ProstateX-0248', 'ProstateX-0249', 'ProstateX-0250', 'ProstateX-0251', 'ProstateX-0252', 'ProstateX-0253', 'ProstateX-0254', 'ProstateX-0255', 'ProstateX-0256', 'ProstateX-0257', 'ProstateX-0258', 'ProstateX-0259', 'ProstateX-0260', 'ProstateX-0261', 'ProstateX-0262', 'ProstateX-0263', 'ProstateX-0264', 'ProstateX-0265', 'ProstateX-0266', 'ProstateX-0267', 'ProstateX-0268', 'ProstateX-0269', 'ProstateX-0270', 'ProstateX-0271', 'ProstateX-0272', 'ProstateX-0273', 'ProstateX-0274', 'ProstateX-0275', 'ProstateX-0276', 'ProstateX-0277', 'ProstateX-0278', 'ProstateX-0279', 'ProstateX-0280', 'ProstateX-0281', 'ProstateX-0282', 'ProstateX-0283', 'ProstateX-0284', 'ProstateX-0285', 'ProstateX-0286', 'ProstateX-0287', 'ProstateX-0288', 'ProstateX-0289', 'ProstateX-0290', 'ProstateX-0291', 'ProstateX-0292', 'ProstateX-0293', 'ProstateX-0294', 'ProstateX-0295', 'ProstateX-0296', 'ProstateX-0297', 'ProstateX-0298', 'ProstateX-0299', 'ProstateX-0300', 'ProstateX-0301', 'ProstateX-0302', 'ProstateX-0303', 'ProstateX-0304', 'ProstateX-0305', 'ProstateX-0306', 'ProstateX-0307', 'ProstateX-0308', 'ProstateX-0309', 'ProstateX-0310', 'ProstateX-0311', 'ProstateX-0312', 'ProstateX-0313', 'ProstateX-0314', 'ProstateX-0315', 'ProstateX-0316', 'ProstateX-0317', 'ProstateX-0318', 'ProstateX-0319', 'ProstateX-0320', 'ProstateX-0321', 'ProstateX-0322', 'ProstateX-0323', 'ProstateX-0324', 'ProstateX-0326', 'ProstateX-0327', 'ProstateX-0328', 'ProstateX-0329', 'ProstateX-0330', 'ProstateX-0332', 'ProstateX-0333', 'ProstateX-0334', 'ProstateX-0335', 'ProstateX-0336', 'ProstateX-0337', 'ProstateX-0338', 'ProstateX-0339', 'ProstateX-0340', 'ProstateX-0341', 'ProstateX-0342', 'ProstateX-0343', 'ProstateX-0344', 'ProstateX-0345'], 
-     'train_val': ['ProstateX-0000', 'ProstateX-0002', 'ProstateX-0004', 'ProstateX-0005', 'ProstateX-0006', 'ProstateX-0007', 'ProstateX-0008', 'ProstateX-0009', 'ProstateX-0011', 'ProstateX-0012', 'ProstateX-0013', 'ProstateX-0014', 'ProstateX-0015', 'ProstateX-0016', 'ProstateX-0017', 'ProstateX-0019', 'ProstateX-0020', 'ProstateX-0021', 'ProstateX-0023', 'ProstateX-0024', 'ProstateX-0025', 'ProstateX-0027', 'ProstateX-0028', 'ProstateX-0029', 'ProstateX-0030', 'ProstateX-0031', 'ProstateX-0033', 'ProstateX-0035', 'ProstateX-0037', 'ProstateX-0038', 'ProstateX-0040', 'ProstateX-0041', 'ProstateX-0042', 'ProstateX-0043', 'ProstateX-0044', 'ProstateX-0046', 'ProstateX-0047', 'ProstateX-0049', 'ProstateX-0050', 'ProstateX-0051', 'ProstateX-0053', 'ProstateX-0054', 'ProstateX-0056', 'ProstateX-0058', 'ProstateX-0059', 'ProstateX-0060', 'ProstateX-0063', 'ProstateX-0064', 'ProstateX-0065', 'ProstateX-0066', 'ProstateX-0067', 'ProstateX-0068', 'ProstateX-0069', 'ProstateX-0070', 'ProstateX-0071', 'ProstateX-0072', 'ProstateX-0075', 'ProstateX-0078', 'ProstateX-0080', 'ProstateX-0081', 'ProstateX-0082', 'ProstateX-0083', 'ProstateX-0084', 'ProstateX-0085', 'ProstateX-0086', 'ProstateX-0087', 'ProstateX-0088', 'ProstateX-0089', 'ProstateX-0090', 'ProstateX-0091', 'ProstateX-0092', 'ProstateX-0093', 'ProstateX-0094', 'ProstateX-0095', 'ProstateX-0096', 'ProstateX-0097', 'ProstateX-0098', 'ProstateX-0099', 'ProstateX-0100', 'ProstateX-0101', 'ProstateX-0102', 'ProstateX-0103', 'ProstateX-0104', 'ProstateX-0105', 'ProstateX-0106', 'ProstateX-0107', 'ProstateX-0108', 'ProstateX-0109', 'ProstateX-0110', 'ProstateX-0111', 'ProstateX-0112', 'ProstateX-0116', 'ProstateX-0117', 'ProstateX-0120', 'ProstateX-0121', 'ProstateX-0122', 'ProstateX-0123', 'ProstateX-0124', 'ProstateX-0125', 'ProstateX-0126', 'ProstateX-0128', 'ProstateX-0129', 'ProstateX-0131', 'ProstateX-0132', 'ProstateX-0133', 'ProstateX-0135', 'ProstateX-0136', 'ProstateX-0140', 'ProstateX-0141', 'ProstateX-0143', 'ProstateX-0144', 'ProstateX-0145', 'ProstateX-0148', 'ProstateX-0149', 'ProstateX-0150', 'ProstateX-0151', 'ProstateX-0152', 'ProstateX-0153', 'ProstateX-0155', 'ProstateX-0156', 'ProstateX-0158', 'ProstateX-0160', 'ProstateX-0162', 'ProstateX-0163', 'ProstateX-0165', 'ProstateX-0167', 'ProstateX-0168', 'ProstateX-0169', 'ProstateX-0171', 'ProstateX-0172', 'ProstateX-0173', 'ProstateX-0174', 'ProstateX-0175', 'ProstateX-0176', 'ProstateX-0177', 'ProstateX-0178', 'ProstateX-0179', 'ProstateX-0180', 'ProstateX-0181', 'ProstateX-0182', 'ProstateX-0183', 'ProstateX-0184', 'ProstateX-0185', 'ProstateX-0186', 'ProstateX-0187', 'ProstateX-0188', 'ProstateX-0189', 'ProstateX-0190', 'ProstateX-0191', 'ProstateX-0192', 'ProstateX-0193', 'ProstateX-0194', 'ProstateX-0195', 'ProstateX-0196', 'ProstateX-0197', 'ProstateX-0198', 'ProstateX-0199', 'ProstateX-0201', 'ProstateX-0203'],  
-    'test': ['ProstateX-0001', 'ProstateX-0003', 'ProstateX-0010', 'ProstateX-0018', 'ProstateX-0022', 'ProstateX-0026', 'ProstateX-0032', 'ProstateX-0034', 'ProstateX-0036', 'ProstateX-0039', 'ProstateX-0045', 'ProstateX-0048', 'ProstateX-0052', 'ProstateX-0055', 'ProstateX-0057', 'ProstateX-0061', 'ProstateX-0062', 'ProstateX-0073', 'ProstateX-0074', 'ProstateX-0076', 'ProstateX-0077', 'ProstateX-0079', 'ProstateX-0113', 'ProstateX-0114', 'ProstateX-0115', 'ProstateX-0118', 'ProstateX-0119', 'ProstateX-0127', 'ProstateX-0130', 'ProstateX-0134', 'ProstateX-0137', 'ProstateX-0138', 'ProstateX-0139', 'ProstateX-0142', 'ProstateX-0146', 'ProstateX-0147', 'ProstateX-0154', 'ProstateX-0157', 'ProstateX-0159', 'ProstateX-0161', 'ProstateX-0164', 'ProstateX-0166', 'ProstateX-0170', 'ProstateX-0200', 'ProstateX-0202']
-       }
+'train_fix': ['3307', '711', '1057', '665', '302', '1242', '160', '618', '621', '116', '312', '3009', '3333', '3311', '563', '3047', '3354', '066', '247', '1205', '464', '3052', '161', '433', '075', '765', '644', '1193', '3348', '932', '3023', '140', '846', '156', '031', '3103', '055', '033', '634', '175', '3029', '304', '957', '1019', '3062', '3030', '3020', '930', '1025', '3309', '095', '760', '358', '429', '1031', '094', '798', '3053', '1239', '950', '1041', '326', '784', '496', '372', '3089', '3344', '409', '3086', '562', '3357', '212', '1085', '3100', '1056', '3090', '3031', '359', '652', '135', '830', '1042', '3006', '3314', '3027', '022', '597', '3345', '1127', '386', '1189', '1021', '027', '1228', '472', '229', '1238', '106', '909', '1036', '639', '452', '330', '3066', '715', '197', '3353', '828', '061', '549', '3358', '124', '202', '653', '431', '082', '103', '608', '3059', '167', '3087', '3084', '853', '631', '1165', '893', '3048', '086', '993', '353', '1141', '692', '725', '099', '268', '3063', '3088', '345', '340', '3078', '568', '3085', '3005', '878', '003', '191', '757', '1044', '1023', '731', '523', '3080', '1178', '3083', '525', '3072', '905', '511', '3081', '1183', '026', '007', '017', '417', '3061', '460', '3012', '3018', '566', '3332', '356', '3082', '314', '1150', '1177', '897', '3064', '1051', '1144', '176', '3049', '1038', '534', '339', '815', '187', '691', '3359', '1225', '3057', '014', '004', '683', '3001', '449', '3101', '3075', '221', '001', '090', '203', '3320', '667', '016', '768', '3337', '3334', '1161', '1224', '519', '091', '3038', '3074', '1192', '3007', '3037', '1221', '3003', '1013', '3321', '104', '601', '1090', '967', '742', '466', '706', '805', '438', '927', '3317', '3042', '3004', '3056', '311', '470', '3099', '3022', '3021', '112', '088', '077', '3060', '3335', '165', '3040', '134', '3091', '008', '906', '1232', '3343', '159', '3032', '1066', '737', '3014', '506', '1138', '317', '655', '766', '205', '921', '096', '650', '696', '524', '367', '371', '3360', '484', '708', '473', '3322', '3036', '583', '432', '1187', '720', '3319', '3058', '3076', '3341', '322', '507', '684', '847', '912', '3340', '119', '3019', '079', '424', '590', '3015', '097', '3026', '3093', '754', '3098', '195', '856', '1244'],
+'train_val': ['724', '3323', '172', '389', '3339', '543', '378', '1014', '131', '323', '183', '3033', '889', '3011', '076', '005', '584', '3071', '670', '495', '1093', '098', '227', '756', '1184', '3041', '1151', '738', '3017', '3351', '444', '210', '3025', '355', '3328', '829', '321', '3326'],
+'test': ['679', '054', '1149', '285', '498', '337', '3044', '3355', '380', '1188', '966', '3092', '3077', '233', '1063', '3073', '977', '1159', '3055', '393', '269', '482', '049', '841', '989', '3039', '3069', '174', '986', '1086', '585', '023', '611', '011', '3094', '1218', '399', '794'],       
+}
+
 
 
 # batch generator tools from https://github.com/MIC-DKFZ/batchgenerators
@@ -277,7 +278,8 @@ class BatchGenerator(SlimDataLoaderBase):
         self.p_fg = 0.5
 
     def generate_train_batch(self):
-
+        print("Number of patients:", len(self._data))
+        print("Patient IDs:", list(self._data.keys())[:10])
         batch_data, batch_segs, batch_pids, batch_targets, batch_patient_labels = [], [], [], [], []
         class_targets_list =  [v['class_target'] for (k, v) in self._data.items()]
 
@@ -287,6 +289,9 @@ class BatchGenerator(SlimDataLoaderBase):
             batch_ixs = dutils.get_class_balanced_patients(
                 class_targets_list, self.batch_size, self.cf.head_classes - 1, slack_factor=self.cf.batch_sample_slack)
         else:
+            print("class_targets_list:", class_targets_list)
+            print("len(class_targets_list):", len(class_targets_list))
+            print("batch_size:", self.batch_size)
             batch_ixs = np.random.choice(len(class_targets_list), self.batch_size)
 
         patients = list(self._data.items())
@@ -298,6 +303,13 @@ class BatchGenerator(SlimDataLoaderBase):
             data = np.transpose(np.load(patient['data'], mmap_mode='r'), axes=(3, 1, 2, 0))
             data = data[:4] # XDDDDDD
             seg = np.transpose(np.load(patient['seg'], mmap_mode='r'), axes=(3, 1, 2, 0))
+
+            print("inside loader hihi")
+            print(data.shape)
+            print(seg.shape)
+            batch_pids.append(patient['pid'])
+            batch_targets.append(patient['class_target'])
+
             batch_pids.append(patient['pid'])
             batch_targets.append(patient['class_target'])
 
@@ -327,8 +339,14 @@ class BatchGenerator(SlimDataLoaderBase):
                 data = dutils.pad_nd_image(data, new_shape, mode='constant')
                 seg = dutils.pad_nd_image(seg, new_shape, mode='constant')
 
+
+
             # crop patches of size pre_crop_size, while sampling patches containing foreground with p_fg.
             crop_dims = [dim for dim, ps in enumerate(self.cf.pre_crop_size) if data.shape[dim + 1] > ps]
+            print("Before cropping")
+            print("data.shape:", data.shape)
+            print("seg.shape :", seg.shape)
+            print("crop_dims:", crop_dims)
             if len(crop_dims) > 0:
                 fg_prob_sample = np.random.rand(1)
                 # with p_fg: sample random pixel from random ROI and shift center by random value.
@@ -357,16 +375,23 @@ class BatchGenerator(SlimDataLoaderBase):
                                                            high=data.shape[ii + 1] - self.cf.pre_crop_size[ii]//2) for ii in crop_dims}
 
                 for ii in crop_dims:
+                    
+                    print(f"\nCropping dimension {ii}")
+                    print("Before:", data.shape, seg.shape)
                     min_crop = int(sample_seg_center[ii] - self.cf.pre_crop_size[ii] // 2)
                     max_crop = int(sample_seg_center[ii] + self.cf.pre_crop_size[ii] // 2)
                     data = np.take(data, indices=range(min_crop, max_crop), axis=ii + 1)
-                    seg = np.take(seg, indices=range(min_crop, max_crop), axis=ii)
+                    seg = np.take(seg, indices=range(min_crop, max_crop), axis=ii + 1)
+                    print("After :", data.shape, seg.shape)
 
             batch_data.append(data)
             batch_segs.append(seg)
 
         data = np.array(batch_data)
         seg = np.array(batch_segs).astype(np.uint8)
+        print("inside loader hihi 2")
+        print(data.shape)
+        print(seg.shape)
         class_target = np.array(batch_targets, dtype=object)
         return {'data': data, 'seg': seg, 'pid': batch_pids, 'class_target': class_target}
 

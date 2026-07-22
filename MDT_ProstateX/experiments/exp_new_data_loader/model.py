@@ -392,10 +392,10 @@ class net(nn.Module):
         self.Fpn = backbone.FPN(self.cf, conv, operate_stride1=self.cf.operate_stride1)
         self.Classifier = Classifier(self.cf, conv)
         self.BBRegressor = BBRegressor(self.cf, conv)
-        if self.cf.debugging:
-            print('\nFPN\n', self.Fpn)
-            print('\nClassifier\n', self.Classifier)
-            print('\nBB regressor\n', self.BBRegressor)
+        # if self.cf.debugging:
+        #     print('\nFPN\n', self.Fpn)
+        #     print('\nClassifier\n', self.Classifier)
+        #     print('\nBB regressor\n', self.BBRegressor)
         self.final_conv = conv(self.cf.end_filts, self.cf.num_seg_classes, ks=1, pad=0, norm=None, relu=None)
 
 
